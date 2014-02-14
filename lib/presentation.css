@@ -1,0 +1,43 @@
+:host {
+  height: 100%;
+  width: 100%;
+  padding:0;
+  margin:0;
+  background-color: #55E;
+  color: red;
+}
+
+controls {
+   background-color:rgba(255,255,255,0.5);
+   color:black;
+   font-size:20px;
+   position: absolute;
+   left:0;
+   top:0;
+   padding: 10px;
+   -webkit-user-select: none;  
+   -moz-user-select: none;    
+   -ms-user-select: none;      
+   user-select: none;
+}
+controls > .control {
+  border: solid 1px black;
+  cursor:pointer;
+  padding: 0 10px;
+  -webkit-transition: all 0.2s;  
+}
+controls:hover {
+   background-color:rgba(255,255,255,0.9);
+}
+controls > .control:hover {
+  border: solid 1px #00E;
+  background-color:rgba(255,250,250,1);
+  
+}
+content::-webkit-distributed(symbol.animated),symbol {
+  position: absolute;
+  display:inline-block;
+}
+.animated,content::-webkit-distributed(symbol.animated)  {
+  -webkit-transition: all 1s;
+}

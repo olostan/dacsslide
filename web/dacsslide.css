@@ -1,0 +1,51 @@
+body,html {
+  height: 100%;
+  width: 100%;
+  padding:0;
+  margin:0;
+  background-color: black;
+}
+.hidden { opacity:0; }
+
+symbol {
+  background-color: rgba(200,200,200,0.2);
+  padding:10px 40px;
+  font-size: 120px;
+  
+}
+
+#center {
+  opacity:0;
+}
+.s2  #hello {
+  -webkit-transform:translateY(200px)
+}
+.s2  #center {
+  background-color:red;
+  opacity:1;
+}
+.s3  #hello {
+  -webkit-transform:translateY(200px) translateX(400px)
+}
+.s4  #center {
+  background-color:green;
+}
+.s4  #hello {
+  -webkit-transform:translateY(-200px) translateX(400px)
+}
+.s5  #hello {
+  -webkit-transform:translateY(-200px) translateX(-400px)
+}
+.s6  #hello {
+  -webkit-transform:translateY(200px) translateX(-400px)
+}
+.s7  #hello {
+  -webkit-transform:translateY(200px)
+}
+.s8  #hello {
+  -webkit-transform:none;
+}
+.s8  #center {
+  opacity:0;
+}
+
