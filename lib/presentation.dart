@@ -32,20 +32,20 @@ class Presentation implements NgAttachAware, NgDetachAware {
   List<StreamSubscription> _subscriptions = new List();
   
   void attach() {
-    print("Attached. $_slides ${symbols.length}");
+    //print("Attached. $_slides ${symbols.length}");
     _subscriptions.add(dom.window.onResize.listen(_repositionSymbols));
     _subscriptions.add(dom.window.onKeyUp.listen(_keyPressed));
     _subscriptions.add(dom.window.onHashChange.listen(_setSlideFromHash));
     // without this delay, Symbol return 0 width so unable to center; 
-    new Future.delayed(new Duration(milliseconds: 50), () {
+    new Future.delayed(new Duration(milliseconds: 150), () {
+      
+
+      _repositionSymbols(null);
+      symbols.forEach((s) => s.enter());
       if (dom.window.location.hash!="")
         _setSlideFromHash(null);
       else
         setSlide(1);
-
-      _repositionSymbols(null);
-      symbols.forEach((s) => s.enter());
-      
       _element.classes.remove("hidden");
  
     });
