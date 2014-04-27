@@ -1,9 +1,9 @@
 library dacsslide.demo;
 
 import 'package:angular/angular.dart';
+import 'package:angular/application_factory.dart';
 import 'package:dacsslide/presentation.dart';
 
-@MirrorsUsed(targets: const ['Presentation'], override: '*')
-import 'dart:mirrors';
-
-main() => ngBootstrap(module:new PresentationModule());
+main() => applicationFactory()
+  .addModule(new PresentationModule())
+  .run();

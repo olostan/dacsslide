@@ -34,11 +34,19 @@ controls > .control:hover {
   background-color:rgba(255,250,250,1);
   
 }
-content::-webkit-distributed(symbol.animated),symbol {
+::content symbol {
   position: absolute;
   display:inline-block;
 }
-.animated, ::content symbol.animated  {
+symbol {
+  position: absolute;
+  display:inline-block;
+}
+
+::content symbol.animated  {
+  -webkit-transition: all 1s;
+}
+.animated  {
   -webkit-transition: all 1s;
 }
 

@@ -6,3 +6,8 @@ homepage: https://github.com/olostan/dacsslide
 dependencies:
   angular: '>=0.9.7 <1.0.0'
   browser: '>=0.9.1 <1.0.0'
+
+transformers:
+- angular:
+    html_files:
+    - lib/presentation.html

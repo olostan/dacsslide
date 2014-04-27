@@ -2,7 +2,7 @@ import 'package:angular/angular.dart';
 import 'dart:html' as dom;
 import 'presentation.dart';
 
-@NgDirective(
+@Decorator(
     selector: 'symbol'
 )
 class PresentationSymbol {

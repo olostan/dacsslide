@@ -5,15 +5,15 @@ import 'dart:html' as dom;
 import 'symbol.dart';
 import "dart:async";
 
-@NgComponent(
+@Component(
     selector: 'presentation',
     templateUrl: 'packages/dacsslide/presentation.html',
     cssUrl: 'packages/dacsslide/presentation.css',
     publishAs: 'presentation',
     applyAuthorStyles: true,
-    visibility: NgDirective.CHILDREN_VISIBILITY
+    visibility: Directive.CHILDREN_VISIBILITY
 )
-class Presentation implements NgAttachAware, NgDetachAware {
+class Presentation implements AttachAware, DetachAware {
   int _slides;
   
   @NgAttr('slides')
