@@ -10,8 +10,7 @@ body,html {
 symbol {
   background-color: rgba(200,200,200,0.2);
   padding:10px 40px;
-  font-size: 120px;
-  
+  font-size: 120px;  
 }
 
 #center {
@@ -34,7 +33,12 @@ symbol {
   -webkit-transform:translateY(-200px) translateX(400px)
 }
 .s5  #hello {
-  -webkit-transform:translateY(-200px) translateX(-400px)
+  -webkit-transform:translateY(-200px) translateX(-400px);
+  color: green;
+}
+.s5 #center {
+    border-radius: 120px;
+  -webkit-transform:rotate(90deg);
 }
 .s6  #hello {
   -webkit-transform:translateY(200px) translateX(-400px)
