@@ -1,0 +1,17 @@
+:host { 
+  position: fixed;
+  bottom: 0;
+  background-color: rgba(200,200,200, 0.4);
+  font-size: 30px;
+  width: 100%;
+  text-align: center;
+  color: white;
+  transform: translateY(200px);
+  transition: 1s;
+}
+:host(.visible) {
+  transform: translateY(0px);
+}
+::content a{
+  color: #FF8;
+}

@@ -4,50 +4,52 @@ body,html {
   padding:0;
   margin:0;
   background-color: black;
+  perspective: 500px;
 }
 .hidden { opacity:0; }
 
 symbol {
   background-color: rgba(200,200,200,0.2);
   padding:10px 40px;
-  font-size: 120px;  
+  font-size: 120px;
+  transform-style: preserve-3d;  
 }
 
 #center {
   opacity:0;
 }
 .s2  #hello {
-  -webkit-transform:translateY(200px)
+  transform:translateY(200px) rotateX(40deg);
 }
 .s2  #center {
   background-color:red;
   opacity:1;
 }
 .s3  #hello {
-  -webkit-transform:translateY(200px) translateX(400px)
+  transform:translateY(200px) translateX(400px) rotateX(40deg) rotateY(-40deg);
 }
 .s4  #center {
   background-color:green;
 }
 .s4  #hello {
-  -webkit-transform:translateY(-200px) translateX(400px)
+  transform:translateY(-200px) translateX(400px) rotateX(-40deg) rotateY(-40deg);
 }
 .s5  #hello {
-  -webkit-transform:translateY(-200px) translateX(-400px);
+  transform:translateY(-200px) translateX(-400px) rotateX(-40deg) rotateY(40deg);
   color: green;
 }
 .s5 #center {
-    border-radius: 120px;
-  -webkit-transform:rotate(90deg);
+  border-radius: 120px;
+  transform:rotate(90deg);
 }
 .s6  #hello {
-  -webkit-transform:translateY(200px) translateX(-400px)
+  transform:translateY(200px) translateX(-300px) rotateX(40deg) rotateY(40deg);
 }
 .s7  #hello {
-  -webkit-transform:translateY(200px)
+  transform:translateY(200px) rotateX(40deg)
 }
 .s8  #hello {
-  -webkit-transform:none;
+  -webkit-transform:none;color: red;
 }
 .s8  #center {
   opacity:0;

@@ -22,8 +22,9 @@ controls {
 }
 controls > .control {
   border: solid 1px black;
+  display:inline-block;
   cursor:pointer;
-  padding: 0 10px;
+  padding: 0 20px;
   -webkit-transition: all 0.2s;  
 }
 controls:hover {
@@ -32,7 +33,6 @@ controls:hover {
 controls > .control:hover {
   border: solid 1px #00E;
   background-color:rgba(255,250,250,1);
-  
 }
 ::content symbol {
   position: absolute;
@@ -44,9 +44,12 @@ symbol {
 }
 
 ::content symbol.animated  {
-  -webkit-transition: all 1s;
+  transition: all 1s;
 }
 .animated  {
-  -webkit-transition: all 1s;
+  transition: 1s;
+}
+.ng-hide {
+  display:none;
 }
 
