@@ -6,6 +6,7 @@ homepage: https://github.com/olostan/dacsslide
 dependencies:
   angular: '>=1.0.0 <1.2.0'
   browser: '>=0.9.1 <1.0.0'
+  csslib_transform: '>=0.0.1 <0.1.0'
 transformers:
 - angular:
     html_files:
@@ -14,3 +15,4 @@ transformers:
     commandLineOptions:
     - --trust-type-annotations
     minify: true
+- csslib_transform

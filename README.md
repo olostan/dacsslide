@@ -32,17 +32,21 @@ And in CSS file you need to specify behaviour:
 #center {
   opacity:0;
 }
-.s2  #hello {
-  -webkit-transform:translateY(200px)
+.s2 {
+   #hello {
+     -webkit-transform:translateY(200px)
+  }
+  #center {
+    background-color:red;
+    opacity:1;
+  }
 }
-.s2  #center {
-  background-color:red;
-  opacity:1;
-}
-.s3  #hello {
-  -webkit-transform:translateY(200px) translateX(400px)
+.s3 {
+  #hello {
+    -webkit-transform:translateY(200px) translateX(400px)
+  }
 }
 ...
 ```
 
-Where `.sN <symbol-id>` means behaviour for slide (keyframe) `N` of symbol `<symbol-id>`
+Where `.sN` means behaviour for slide (keyframe) `N`.
