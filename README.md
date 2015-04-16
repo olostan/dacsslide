@@ -16,7 +16,7 @@ Example could be found in `web` folder.
 
 In HTML file you need to speicfy "symbols":
 
-```
+```html
 <presentation slides="8" class="hidden">
       <symbol id="hello">
         Hello {{world}}
@@ -27,24 +27,21 @@ In HTML file you need to speicfy "symbols":
 </presentation>
 ```
 
-And in CSS file you need to specify behaviour: 
-```
+And in SCSS file you need to specify behaviour (Note: syntax below is using DACSSlide additions to SCSS): 
+```css
 #center {
   opacity:0;
 }
 .s2 {
-   #hello {
-     -webkit-transform:translateY(200px)
-  }
+  #hello: move(50,100);
+   
   #center {
     background-color:red;
     opacity:1;
   }
 }
 .s3 {
-  #hello {
-    -webkit-transform:translateY(200px) translateX(400px)
-  }
+  #hello:move(+100,+100);
 }
 ...
 ```

@@ -15,34 +15,28 @@ symbol {
   transform-style: preserve-3d;  
 }
 
-#center {
-  opacity:0;
-}
+#center {opacity:0; }
+
 .s2 { 
-  #hello {
-    transform:translateY(200px) rotateX(40deg);
-  }
+  #hello: move(0,200) rotate(40);
+  
   #center {
     background-color:red;
     opacity:1;
   }
 }
 .s3 {
-  #hello {
-    transform:translateY(200px) translateX(400px) rotateX(40deg) rotateY(-40deg);
-  }
+  #hello: move(+400) rotate(+0,-40);
 }
 .s4 { 
   #center {
     background-color:green;
   }
-  #hello {
-    transform:translateY(-200px) translateX(400px) rotateX(-40deg) rotateY(-40deg);
-  }
+  #hello: move(+0,-400) rotate(-80);
 }
 .s5 { 
+  #hello: move(-800) rotate(-40,+80);
   #hello {
-    transform:translateY(-200px) translateX(-400px) rotateX(-40deg) rotateY(40deg);
     color: green;
   }
   #center {
@@ -51,19 +45,16 @@ symbol {
   }
 }
 .s6 {
-  #hello {
-    transform:translateY(200px) translateX(-300px) rotateX(40deg) rotateY(40deg);
-  }
-  #hello {
-    transform:translateY(200px) rotateX(40deg)
-  }
+  #hello: move(+0,+400) rotate(+80,+0);
+}
+.s7 {
+  #hello: move(+400) rotate(40,0);
 }
 .s8 {
+  #hello: move(0,0) rotate(-40);
   #hello {
-    -webkit-transform:none;color: red;
+    color: red;
   }
-  #center {
-    opacity:0;
-  }
+  #center { opacity:0; };
 }
 
