@@ -1,5 +1,10 @@
 # Changelog
 
+
+## 0.0.9
+
+- Added shortened relative modifiers (`up`, `down`, `left`, `right`) and tests 
+
 ## 0.0.8
 
 - Added DACSSlie extension to SCSS syntax

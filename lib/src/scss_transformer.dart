@@ -11,7 +11,9 @@ class _SymbolState {
     'move':['x','y'],
     'rotate':['rx','ry','rz'],
     'rotateX':['rx'],
-    'scale':['sx','sy','sz']
+    'scale':['sx','sy','sz'],
+    'up':['-y'],'down':['+y'],
+    'left':['-x'],'right':['+x']
   };
  
   void transform(String modifier) {
@@ -34,11 +36,23 @@ class _SymbolState {
   }
   
   __doOp(String field, String nv) {
+    int mult=1;
+    bool relative = false;
+    if (field[0]=='-') {
+      mult = -1;field = field.substring(1);relative = true;
+    } else if (field[0]=='+') {
+      field = field.substring(1);relative = true;
+    } 
+    num numNV;
+    if (nv[0]=="+") {
+      numNV =  num.parse(nv.substring(1)); relative = true;
+    } else if (nv[0]=="-") {
+      numNV =  num.parse(nv.substring(1)); relative = true; mult *= -1;
+    } else numNV = num.parse(nv);
     
     var v = state[field];
-    if (nv[0]=="+") v = (v==null?0:v)+num.parse(nv.substring(1));
-    else if (nv[0]=="-") v = (v==null?0:v)-num.parse(nv.substring(1));
-    else v = num.parse(nv);
+    if (relative) v = (v==null?0:v)+numNV*mult;
+    else v = numNV*mult;
     state[field] = v;
   }
   
@@ -98,7 +112,7 @@ class _Css {
     _addTransform("rotate","r","deg");
     _addTransform("scale","s","");
     var newTransforms = transforms.join(" ");
-    if (symbol.outCache['transforms'] == newTransforms) return "";
+    if (symbol.outCache['transforms'] == newTransforms||newTransforms=="") return "";
     symbol.outCache['transforms'] = newTransforms;
     return "transform:$newTransforms;";
   }
@@ -116,6 +130,6 @@ String transformCSSLide(String input) {
     var modifiers = input.substring(symbolMatch.end,end).split(" ")..removeWhere((s) => s==null||s=="");
 //    print("symbol $symbol, mods: $modifiers");
     modifiers.forEach(state.transform);
-    input = input.replaceRange(symbolMatch.start, end,symbol+"{ "+new _Css(state)()+"}");
+    input = input.replaceRange(symbolMatch.start, end+1,symbol+"{ "+new _Css(state)()+"}");
   }
 }
