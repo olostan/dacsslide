@@ -9,11 +9,12 @@ class _SymbolState {
   
   var standartMods = <String,List<String>>{
     'move':['x','y'],
-    'rotate':['rx','ry','rz'],
-    'rotateX':['rx'],
-    'scale':['sx','sy','sz'],
+    'rotate':['+rx','+ry','+rz'],
+    'rotateX':['+rx'],
+    'scale':['+sx','+sy','+sz'],
     'up':['-y'],'down':['+y'],
-    'left':['-x'],'right':['+x']
+    'left':['-x'],'right':['+x'],
+    'delay':['delay']
   };
  
   void transform(String modifier) {
@@ -44,11 +45,12 @@ class _SymbolState {
       field = field.substring(1);relative = true;
     } 
     num numNV;
+    /*
     if (nv[0]=="+") {
       numNV =  num.parse(nv.substring(1)); relative = true;
     } else if (nv[0]=="-") {
       numNV =  num.parse(nv.substring(1)); relative = true; mult *= -1;
-    } else numNV = num.parse(nv);
+    } else */ numNV = num.parse(nv);
     
     var v = state[field];
     if (relative) v = (v==null?0:v)+numNV*mult;
@@ -74,7 +76,8 @@ class _Css {
   String call() {
     return 
     _doOpacity()+
-    _doTransforms();
+    _doTransforms()+
+    _doTransitionDelay();
   }
   String _doOpacity() {
     var opacity = symbol.state['opacity'];
@@ -82,6 +85,13 @@ class _Css {
     var newOpacity = "opacity:${opacity};";
     if (newOpacity==symbol.outCache["opacity"]) return "";
     return symbol.outCache["opacity"] = newOpacity;
+  }
+  String _doTransitionDelay() {
+    var delay = symbol.state['delay'];
+    if (delay==null) return "";
+    var newDelay = "transition-delay: ${delay}s;";
+    if (newDelay==symbol.outCache["delay"]) return "";
+    return symbol.outCache["delay"] = newDelay;
   }
   
   
