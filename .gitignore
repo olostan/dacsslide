@@ -2,3 +2,4 @@ build
 packages
 *.lock
 .pub
+.idea

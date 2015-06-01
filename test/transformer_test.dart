@@ -60,10 +60,23 @@ delayTests() {
 ''');
 }
 
+inlineTests() {
+  testTransform('''
+#test { color:blue; ::move(20,20); }
+.s1 { #test { color: green; ::left(50) show;} }
+.s2 { #test { color: blue; ::down(50) show; width:200;} }
+''','''
+#test { color:blue; transform:translateX(20px) translateY(20px); }
+.s1 { #test { color: green; opacity:1;transform:translateX(-30px) translateY(20px);} }
+.s2 { #test { color: blue; transform:translateX(-30px) translateY(70px); width:200;} }
+''');
+}
+
 main() {
   test('Move tests', moveTests);
   test('Combination tests', combTests);
   test('Delay tests', delayTests);
+  test('Inline tests', inlineTests);
 
 }
 

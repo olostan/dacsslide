@@ -1,7 +1,5 @@
 library dacsslide;
 
-RegExp _symbRegExp = new RegExp(r'(#\w+):');
-
 class _SymbolState {
       
   Map<String,num> state = {};
@@ -127,19 +125,35 @@ class _Css {
     return "transform:$newTransforms;";
   }
 }
+RegExp _symbRegExp = new RegExp(r'(#\w+):');
+RegExp _symbInsideRegExp = new RegExp(r'(#\w+)\s*{(.*)::((\w+(\([^)]*\))?\s*)+);(.*)}');
+//RegExp _symbInsideRegExp = new RegExp(r'(#\w+)\s*{(.*)::(((\w+(\([^)]*\))?\s*)+)\s*)+;(.*)}');
 
 String transformCSSLide(String input) {
   var states = new Map<String,_SymbolState>();
   while(true) {
-    var symbolMatch = _symbRegExp.firstMatch(input);
-    if (symbolMatch==null) return input;
-    var symbol = symbolMatch.group(1);
-    var state = states[symbol];
-    if (state == null) states[symbol] = state = new _SymbolState();
-    var end = input.indexOf(";",symbolMatch.end);
-    var modifiers = input.substring(symbolMatch.end,end).split(" ")..removeWhere((s) => s==null||s=="");
-//    print("symbol $symbol, mods: $modifiers");
-    modifiers.forEach(state.transform);
-    input = input.replaceRange(symbolMatch.start, end+1,symbol+"{ "+new _Css(state)()+"}");
+      var symbolMatch = _symbRegExp.firstMatch(input);
+      if (symbolMatch==null) {
+        var newInput = input.replaceFirstMapped(_symbInsideRegExp, (match) {
+            var symbol = match[1];
+            var modifiers = match[3].split(" ")..removeWhere((s) => s==null||s=="");
+            var state = states[symbol];
+            if (state == null) states[symbol] = state = new _SymbolState();
+            modifiers.forEach(state.transform);
+            return match[1]+" {"+match[2]+new _Css(state)()+match[6]+"}";
+        });
+        if (newInput==input) return input;
+        //input = newInput; return input;
+        input = newInput;
+      } else {
+        var symbol = symbolMatch.group(1);
+        var state = states[symbol];
+        if (state == null) states[symbol] = state = new _SymbolState();
+        var end = input.indexOf(";",symbolMatch.end);
+        var modifiers = input.substring(symbolMatch.end,end).split(" ")..removeWhere((s) => s==null||s=="");
+        modifiers.forEach(state.transform);
+        input = input.replaceRange(symbolMatch.start, end+1,symbol+"{ "+new _Css(state)()+"}");
+      }
   }
+
 }

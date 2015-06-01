@@ -46,9 +46,11 @@ symbol {
 }
 .s6 {
   #hello: move(+0,+400) rotate(+80,+0);
+  #center: move(100,100);
 }
 .s7 {
   #hello: move(+400) rotate(40,0);
+  #center: move(50,+100);
 }
 .s8 {
   #hello: move(0,0) rotate(-40);
