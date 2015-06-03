@@ -3,18 +3,17 @@ DaCSSlide [![Build Status](https://drone.io/github.com/olostan/dacsslide/status.
 
 Port of [JaCSS](https://github.com/olostan/jacss) - tiny "framework" for building pure CSS3-animation based presentations. 
 
-Demo
+Examples
 ====
 
-Simple:
-
-http://olostan.github.io/dacsslide_starter/ (source code: https://github.com/olostan/dacsslide_starter )
+- Starter kit: http://olostan.github.io/dacsslide_starter/ (source code: https://github.com/olostan/dacsslide_starter )
+- From web folder of this repository: http://olostan.github.io/dacsslide/dacsslide.html
 
 Advanced usage:
 
-http://olostan.github.io/dacsslide_video/
-http://olostan.github.io/slides_twinui2/
-http://slides.olostan.name/dartFlight/dartflightslides.html
+- http://olostan.github.io/dacsslide_video/
+- http://olostan.github.io/slides_twinui2/
+- http://slides.olostan.name/dartFlight/dartflightslides.html
 
 
 
