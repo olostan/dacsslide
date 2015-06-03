@@ -37,7 +37,7 @@ symbol {
 .s5 {
   #hello {
     color: green;
-    ::left(500) rotate(-40,+80);
+    ::left(800) rotate(-40,+80);
   }
   #center {
     border-radius: 120px;
@@ -45,18 +45,18 @@ symbol {
   }
 }
 .s6 {
-  #hello: move(+0,+400) rotate(+80,+0);
-  #center: move(100,100);
+  #hello: down(400) rotate(+80,+0);
+  #center: down(100)  delay(0.2);
 }
 .s7 {
-  #hello: move(+400) rotate(40,0);
-  #center: move(50,+100);
+  #hello: right(400) rotate(0,-40);
+  #center: up(150);
 }
 .s8 {
   #hello {
     ::move(0,0) rotate(-40);
     color: red;
   }
-  #center { opacity:0; };
+  #center: hide up(200);
 }
 
