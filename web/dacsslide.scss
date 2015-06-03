@@ -15,29 +15,29 @@ symbol {
   transform-style: preserve-3d;  
 }
 
-#center {opacity:0; }
+#center: hide;
 
 .s2 { 
-  #hello: move(0,200) rotate(40);
+  #hello: down(200) rotate(40);
   
   #center {
     background-color:red;
-    opacity:1;
+    ::show;
   }
 }
 .s3 {
-  #hello: move(+400) rotate(+0,-40);
+  #hello: right(400) rotate(+0,-40);
 }
 .s4 { 
   #center {
     background-color:green;
   }
-  #hello: move(+0,-400) rotate(-80);
+  #hello: up(400) rotate(-80);
 }
-.s5 { 
-  #hello: move(-800) rotate(-40,+80);
+.s5 {
   #hello {
     color: green;
+    ::left(500) rotate(-40,+80);
   }
   #center {
     border-radius: 120px;
@@ -53,8 +53,8 @@ symbol {
   #center: move(50,+100);
 }
 .s8 {
-  #hello: move(0,0) rotate(-40);
   #hello {
+    ::move(0,0) rotate(-40);
     color: red;
   }
   #center { opacity:0; };

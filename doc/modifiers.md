@@ -10,3 +10,6 @@
 | `left(a)` | Move symbol `a` pixes left| Relative |
 | `right(a)` | Move symbol `a` pixes right| Relative |
 | `delay(a)` | Delay animation on `a` seconds| Absolute |
+| `opacity(a)` | Set opacity to `a` | Absolute |
+| `show` | Shows symbol |  |
+| `hide` | Hides symbol |  |

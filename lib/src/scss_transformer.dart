@@ -12,7 +12,8 @@ class _SymbolState {
     'scale':['+sx','+sy','+sz'],
     'up':['-y'],'down':['+y'],
     'left':['-x'],'right':['+x'],
-    'delay':['delay']
+    'delay':['delay'],
+    'opacity':['opacity']
   };
  
   void transform(String modifier) {
@@ -126,22 +127,25 @@ class _Css {
   }
 }
 RegExp _symbRegExp = new RegExp(r'(#\w+):');
-RegExp _symbInsideRegExp = new RegExp(r'(#\w+)\s*{(.*)::((\w+(\([^)]*\))?\s*)+);(.*)}');
-//RegExp _symbInsideRegExp = new RegExp(r'(#\w+)\s*{(.*)::(((\w+(\([^)]*\))?\s*)+)\s*)+;(.*)}');
+RegExp _symbInsideRegExp = new RegExp(r'(#\w+)\s*{((?:[^{]|\n)*?)::((\w+(\([^)]*?\))?\s*)+);((?:.|\n)*?)}');
+//RegExp _symbInsideRegExp = new RegExp(r'(#\w+)\s*{((?:.|\n)*?)::((\w+(\([^)]*?\))?\s*)+);((?:.|\n)*?)}');
 
 String transformCSSLide(String input) {
   var states = new Map<String,_SymbolState>();
   while(true) {
       var symbolMatch = _symbRegExp.firstMatch(input);
-      if (symbolMatch==null) {
+      var inlineMatch = _symbInsideRegExp.firstMatch(input);
+      if (symbolMatch==null || (inlineMatch!=null && inlineMatch.start<symbolMatch.start)) {
         var newInput = input.replaceFirstMapped(_symbInsideRegExp, (match) {
             var symbol = match[1];
             var modifiers = match[3].split(" ")..removeWhere((s) => s==null||s=="");
             var state = states[symbol];
             if (state == null) states[symbol] = state = new _SymbolState();
+            //print("inine mods: $symbol ${modifiers.join(' ')} ${state.state['x']} $input");
             modifiers.forEach(state.transform);
             return match[1]+" {"+match[2]+new _Css(state)()+match[6]+"}";
         });
+        //print("is it end? ${newInput == input}, $input");
         if (newInput==input) return input;
         //input = newInput; return input;
         input = newInput;

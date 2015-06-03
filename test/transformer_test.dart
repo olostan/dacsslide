@@ -4,12 +4,17 @@
 
 library transformer_test;
 
-import 'package:unittest/unittest.dart';
+import 'package:test/test.dart';
 
 import 'package:dacsslide/src/scss_transformer.dart';
 
 testTransform(String src,String dst) {
   expect(transformCSSLide(src),equals(dst));
+}
+testEqualTransform(String src1,String src2) {
+  var r1 = transformCSSLide(src1);
+  var r2 = transformCSSLide(src2);
+  expect(r1,equals(r2));
 }
 
 moveTests() {
@@ -38,12 +43,14 @@ combTests() {
 .s1 { #test: move(+10,20) show;}
 .s2 { #test: hide; #another:show;}
 .s3 { #test: show rotate(20);}
+.s4 { #test: opacity(0.2) rotate(20);}
 ''','''
 #test{ transform:translateX(5px) translateY(5px);}
 .s1 { #test{ opacity:1;transform:translateX(10px) translateY(20px);}}
 .s2 { #test{ opacity:0;} #another{ opacity:1;}}
 .s3 { #test{ opacity:1;transform:translateX(10px) translateY(20px) rotateX(20deg);}}
-''');  
+.s4 { #test{ opacity:0.2;transform:translateX(10px) translateY(20px) rotateX(40deg);}}
+''');
 }
 
 delayTests() {
@@ -63,20 +70,64 @@ delayTests() {
 inlineTests() {
   testTransform('''
 #test { color:blue; ::move(20,20); }
-.s1 { #test { color: green; ::left(50) show;} }
-.s2 { #test { color: blue; ::down(50) show; width:200;} }
+.s1 { #test {
+  color: green;
+  ::left(50) show;
+  }
+}
+.s2 { #test {
+  color: blue;
+  ::down(50) show;
+  width:200;
+  }
+}
 ''','''
 #test { color:blue; transform:translateX(20px) translateY(20px); }
-.s1 { #test { color: green; opacity:1;transform:translateX(-30px) translateY(20px);} }
-.s2 { #test { color: blue; transform:translateX(-30px) translateY(70px); width:200;} }
+.s1 { #test {
+  color: green;
+  opacity:1;transform:translateX(-30px) translateY(20px);
+  }
+}
+.s2 { #test {
+  color: blue;
+  transform:translateX(-30px) translateY(70px);
+  width:200;
+  }
+}
 ''');
 }
+
+inlineOrderTests() {
+  testTransform('''
+#nice: hide;
+#test: move(20,20); }
+.s1 { #test {
+  color: green;
+  ::left(50) show;
+  }
+}
+.s2 { #test: down(50) hide; }
+}
+''','''
+#nice{ opacity:0;}
+#test{ transform:translateX(20px) translateY(20px);} }
+.s1 { #test {
+  color: green;
+  opacity:1;transform:translateX(-30px) translateY(20px);
+  }
+}
+.s2 { #test{ opacity:0;transform:translateX(-30px) translateY(70px);} }
+}
+''');
+}
+
 
 main() {
   test('Move tests', moveTests);
   test('Combination tests', combTests);
   test('Delay tests', delayTests);
   test('Inline tests', inlineTests);
+  test('Inline order tests', inlineOrderTests);
 
 }
 

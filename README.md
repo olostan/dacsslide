@@ -6,7 +6,16 @@ Port of [JaCSS](https://github.com/olostan/jacss) - tiny "framework" for buildin
 Demo
 ====
 
+Simple:
+
+http://olostan.github.io/dacsslide_starter/ (source code: https://github.com/olostan/dacsslide_starter )
+
+Advanced usage:
+
+http://olostan.github.io/dacsslide_video/
+http://olostan.github.io/slides_twinui2/
 http://slides.olostan.name/dartFlight/dartflightslides.html
+
 
 
 Example
@@ -38,6 +47,7 @@ And in SCSS file you need to specify behaviour (Note: syntax below is using DACS
   #center {
     background-color:red;
     opacity:1;
+    ::up(20);
   }
 }
 .s3 {

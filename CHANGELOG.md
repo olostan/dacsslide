@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.11
+
+- Aded inline syntax. Added `opacity` function.
+
 ## 0.0.10
 
 - Aded `delay` functions. Removed relative modifier for `move`. Added documentation for functions.
