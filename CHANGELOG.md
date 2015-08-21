@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.12
+
+- Aded "track" property to track symbol's width/height.
+
 ## 0.0.11
 
 - Aded inline syntax. Added `opacity` function.

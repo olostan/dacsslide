@@ -56,3 +56,5 @@ And in SCSS file you need to specify behaviour (Note: syntax below is using DACS
 ```
 
 Where `.sN` means behaviour for slide (keyframe) `N`.
+
+Each symbol can have `track` property if it can change it's width or height (in case of asynchronously loaded symbols).

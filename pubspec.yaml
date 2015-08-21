@@ -1,10 +1,10 @@
 name: dacsslide
-version: 0.0.11
+version: 0.0.12
 author: Valentyn Shybanov <olostan@gmail.com>
 description: Dart CSS presentation framework.
 homepage: https://github.com/olostan/dacsslide
 dependencies:
-  angular: '>=1.0.0 <1.2.0'
+  angular: '>=1.0.0 <1.5.0'
   browser: '>=0.9.1 <1.0.0'
   csslib_transform: '>=0.0.1 <0.1.0'
   test: '>=0.11.0 <0.13.0'
