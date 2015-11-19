@@ -27,12 +27,15 @@ class PresentationSymbol implements DetachAware {
       //dom.window.console.log(element);
       //print("w:${element.clientWidth}");;
     lastCx = cx;lastCy =cy;
-    element.style.left = "${cx-element.clientWidth/2}px";
-    element.style.top = "${cy-element.clientHeight/2}px";
+    element.style.left = "${(cx-element.clientWidth/2).round()}px";
+    element.style.top = "${(cy-element.clientHeight/2).round()}px";
   }
   void _rePosition(_) {
-    if (element.clientWidth!=lastWidth || element.clientHeight!=lastHeight)
+    if (element.clientWidth!=lastWidth || element.clientHeight!=lastHeight) {
       center(lastCx, lastCy);
+      lastWidth = element.clientWidth;
+      lastHeight = element.clientHeight;
+    }
   }
   enter() {
     element.classes.add("animated");
