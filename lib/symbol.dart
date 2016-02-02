@@ -36,7 +36,6 @@ class PresentationSymbol implements DetachAware {
   }
   enter() {
     element.classes.add("animated");
-    print("Fixed: ${this.fixed}");
     if (!this.fixed)
       _timer = new Timer.periodic(new Duration(milliseconds:250),_rePosition);
   }
