@@ -85,7 +85,6 @@ class Presentation implements AttachAware, DetachAware {
   List<StreamSubscription> _subscriptions = new List();
   
   void attach() {
-    //print("Attached. $_slides ${symbols.length}");
     //_service.attachPresentation(this);
     _subscriptions.add(dom.window.onResize.listen(_repositionSymbols));
     _subscriptions.add(dom.window.onKeyUp.listen(_keyPressed));
@@ -121,7 +120,7 @@ class Presentation implements AttachAware, DetachAware {
       }
     }
     _service.onSlide.add(current);
-    dom.window.location.hash = "#$current";
+    _updateHash();
   }
   void next() => setSlide(current+1);
   void prev() => setSlide(current-1);
@@ -147,10 +146,18 @@ class Presentation implements AttachAware, DetachAware {
   }
   
   void _setSlideFromHash(dom.Event e) {
-    var newSlide = int.parse(dom.window.location.hash.substring(1));
+    var hash = dom.window.location.hash.substring(1);
+    if (hash.indexOf('&')>-1) hash = hash.substring(0,hash.indexOf('&'));
+    var newSlide = int.parse(hash);
     if (newSlide != current) setSlide(newSlide);    
   }
-  
+  void _updateHash() {
+    var hash = dom.window.location.hash.substring(1);
+    var suffix = "";
+    if (hash.indexOf('&')>-1) suffix = hash.substring(hash.indexOf('&'));
+    dom.window.location.hash = "#$current$suffix";
+  }
+
   void _addClass(String className) => _service.elements.forEach((el) => el.classes.add(className));
   void _removeClass(String className) => _service.elements.forEach((el) => el.classes.remove(className));
   

@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.15
+
+- Added support of additional parameters in URL hash (Appended by `&`). Could be used by other plugins, like remote controller.
+
 ## 0.0.14
 
 - Tracking symbols by default. Symbols can be not auto-centralized by setting `fixed=true` on symbol.
