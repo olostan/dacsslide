@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.14
+
+- Tracking symbols by default. Symbols can be not auto-centralized by setting `fixed=true` on symbol.
+
 ## 0.0.12
 
 - Aded "track" property to track symbol's width/height.

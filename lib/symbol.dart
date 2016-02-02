@@ -15,15 +15,12 @@ class PresentationSymbol implements DetachAware {
   }
   Timer _timer;
 
-  @NgAttr('track')
-  void set track(String track) {
-    if (track!=null) {
-      _timer = new Timer.periodic(new Duration(milliseconds:250),_rePosition);
-    }
-  }
+  @NgOneWayOneTime('fixed') bool fixed=false;
+
   int lastCx, lastCy, lastWidth, lastHeight;
 
   center(int cx, int cy) {
+    if (fixed) return;
       //dom.window.console.log(element);
       //print("w:${element.clientWidth}");;
     lastCx = cx;lastCy =cy;
@@ -39,6 +36,9 @@ class PresentationSymbol implements DetachAware {
   }
   enter() {
     element.classes.add("animated");
+    print("Fixed: ${this.fixed}");
+    if (!this.fixed)
+      _timer = new Timer.periodic(new Duration(milliseconds:250),_rePosition);
   }
 
   @override
