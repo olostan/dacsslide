@@ -152,7 +152,9 @@ class Presentation implements AttachAware, DetachAware {
     if (newSlide != current) setSlide(newSlide);    
   }
   void _updateHash() {
-    var hash = dom.window.location.hash.substring(1);
+
+    var hash = dom.window.location.hash;
+    if (hash.startsWith('#')) hash = hash.substring(1);
     var suffix = "";
     if (hash.indexOf('&')>-1) suffix = hash.substring(hash.indexOf('&'));
     dom.window.location.hash = "#$current$suffix";
