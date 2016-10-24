@@ -1,21 +1,13 @@
-body,html {
-  height: 100%;
-  width: 100%;
-  padding:0;
-  margin:0;
-  background-color: black;
-  perspective: 500px;
+#hello {
+    color: red;
+    padding: 40px;
+    background-color: #eee;
 }
-.hidden { opacity:0; }
-
-symbol {
-  background-color: rgba(200,200,200,0.2);
-  padding:10px 40px;
-  font-size: 120px;
-  transform-style: preserve-3d;  
+#center {
+    padding: 40px;
 }
 
-#center: hide;
+#hello: show;
 
 .s2 { 
   #hello: down(200) rotate(40);

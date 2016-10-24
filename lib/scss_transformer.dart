@@ -1,10 +1,9 @@
-library dacsslide;
 
 class _SymbolState {
-      
+
   Map<String,num> state = {};
   Map<String,String> outCache = {};
-  
+
   var standartMods = <String,List<String>>{
     'move':['x','y'],
     'rotate':['+rx','+ry','+rz'],
@@ -15,16 +14,16 @@ class _SymbolState {
     'delay':['delay'],
     'opacity':['opacity']
   };
- 
+
   void transform(String modifier) {
     var op = modifier.indexOf("(");
-    var cl = modifier.indexOf(")"); 
+    var cl = modifier.indexOf(")");
     var modName =op>0?modifier.substring(0,op):modifier;
     var arguments = op>0?modifier.substring(op+1,cl).split(","):[];
     List<String> modArgs = standartMods[modName];
-    if (modArgs!=null) { 
+    if (modArgs!=null) {
       for(var idx =0;idx<arguments.length;idx++) {
-        __doOp(modArgs[idx],arguments[idx]);  
+        __doOp(modArgs[idx],arguments[idx]);
       }
     } else {
       switch(modName) {
@@ -34,7 +33,7 @@ class _SymbolState {
       }
     }
   }
-  
+
   __doOp(String field, String nv) {
     int mult=1;
     bool relative = false;
@@ -42,7 +41,7 @@ class _SymbolState {
       mult = -1;field = field.substring(1);relative = true;
     } else if (field[0]=='+') {
       field = field.substring(1);relative = true;
-    } 
+    }
     num numNV;
     /*
     if (nv[0]=="+") {
@@ -50,33 +49,33 @@ class _SymbolState {
     } else if (nv[0]=="-") {
       numNV =  num.parse(nv.substring(1)); relative = true; mult *= -1;
     } else */ numNV = num.parse(nv);
-    
+
     var v = state[field];
     if (relative) v = (v==null?0:v)+numNV*mult;
     else v = numNV*mult;
     state[field] = v;
   }
-  
+
   _doShow() {
     state['opacity'] =1;
   }
   _doHide() {
-      state['opacity']=0;
-  } 
+    state['opacity']=0;
+  }
 }
 
 class _Css {
   _SymbolState symbol;
-  
+
   _Css(this.symbol);
-  
+
   List<String> transforms = [];
-  
+
   String call() {
-    return 
-    _doOpacity()+
-    _doTransforms()+
-    _doTransitionDelay();
+    return
+      _doOpacity()+
+          _doTransforms()+
+          _doTransitionDelay();
   }
   String _doOpacity() {
     var opacity = symbol.state['opacity'];
@@ -92,8 +91,8 @@ class _Css {
     if (newDelay==symbol.outCache["delay"]) return "";
     return symbol.outCache["delay"] = newDelay;
   }
-  
-  
+
+
   _addTransformAxis(String name, String axis, String pref,String suff) {
     var key = "$pref$axis";
     num v = symbol.state[key];
@@ -106,16 +105,16 @@ class _Css {
     symbol.outCache["$name$key"]=sV;
     */
     transforms.add("$name${axis.toUpperCase()}($sV)");
-    
+
   }
-  
+
   _addTransform(String name, String pref,[String suff=""]) {
     _addTransformAxis(name,'x',pref,suff);
     _addTransformAxis(name,'y',pref,suff);
     _addTransformAxis(name,'z',pref,suff);
-    
+
   }
-  
+
   String _doTransforms() {
     _addTransform("translate","","px");
     _addTransform("rotate","r","deg");
@@ -133,31 +132,31 @@ RegExp _symbInsideRegExp = new RegExp(r'(#\w+)\s*{((?:[^{]|\n)*?)::((\w+(\([^)]*
 String transformCSSLide(String input) {
   var states = new Map<String,_SymbolState>();
   while(true) {
-      var symbolMatch = _symbRegExp.firstMatch(input);
-      var inlineMatch = _symbInsideRegExp.firstMatch(input);
-      if (symbolMatch==null || (inlineMatch!=null && inlineMatch.start<symbolMatch.start)) {
-        var newInput = input.replaceFirstMapped(_symbInsideRegExp, (match) {
-            var symbol = match[1];
-            var modifiers = match[3].split(" ")..removeWhere((s) => s==null||s=="");
-            var state = states[symbol];
-            if (state == null) states[symbol] = state = new _SymbolState();
-            //print("inine mods: $symbol ${modifiers.join(' ')} ${state.state['x']} $input");
-            modifiers.forEach(state.transform);
-            return match[1]+" {"+match[2]+new _Css(state)()+match[6]+"}";
-        });
-        //print("is it end? ${newInput == input}, $input");
-        if (newInput==input) return input;
-        //input = newInput; return input;
-        input = newInput;
-      } else {
-        var symbol = symbolMatch.group(1);
+    var symbolMatch = _symbRegExp.firstMatch(input);
+    var inlineMatch = _symbInsideRegExp.firstMatch(input);
+    if (symbolMatch==null || (inlineMatch!=null && inlineMatch.start<symbolMatch.start)) {
+      var newInput = input.replaceFirstMapped(_symbInsideRegExp, (match) {
+        var symbol = match[1];
+        var modifiers = match[3].split(" ")..removeWhere((s) => s==null||s=="");
         var state = states[symbol];
         if (state == null) states[symbol] = state = new _SymbolState();
-        var end = input.indexOf(";",symbolMatch.end);
-        var modifiers = input.substring(symbolMatch.end,end).split(" ")..removeWhere((s) => s==null||s=="");
+        //print("inine mods: $symbol ${modifiers.join(' ')} ${state.state['x']} $input");
         modifiers.forEach(state.transform);
-        input = input.replaceRange(symbolMatch.start, end+1,symbol+"{ "+new _Css(state)()+"}");
-      }
+        return match[1]+" {"+match[2]+new _Css(state)()+match[6]+"}";
+      });
+      //print("is it end? ${newInput == input}, $input");
+      if (newInput==input) return input;
+      //input = newInput; return input;
+      input = newInput;
+    } else {
+      var symbol = symbolMatch.group(1);
+      var state = states[symbol];
+      if (state == null) states[symbol] = state = new _SymbolState();
+      var end = input.indexOf(";",symbolMatch.end);
+      var modifiers = input.substring(symbolMatch.end,end).split(" ")..removeWhere((s) => s==null||s=="");
+      modifiers.forEach(state.transform);
+      input = input.replaceRange(symbolMatch.start, end+1,symbol+"{ "+new _Css(state)()+"}");
+    }
   }
 
 }
