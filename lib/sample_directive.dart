@@ -12,7 +12,7 @@ class SampleService {
 
   SampleService(this._http) {
     var script = new ScriptElement();
-    script.src = 'packages/slides_ng2high/prettify/prettify.js';
+    script.src = 'packages/dacsslide/prettify/prettify.js';
     script.type = 'text/javascript';
     script.onLoad.listen((event) {
       _loaded.complete();
@@ -20,7 +20,7 @@ class SampleService {
     document.body.append(script);
 
     var css = new LinkElement();
-    css.href = 'packages/slides_ng2high/prettify/sons-of-obsidian.css';
+    css.href = 'packages/dacsslide/prettify/sons-of-obsidian.css';
     css.type = 'text/css';
     css.rel = 'stylesheet';
     document.head.append(css);
