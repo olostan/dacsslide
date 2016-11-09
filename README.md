@@ -1,4 +1,4 @@
-DaCSSlide [![Build Status](https://drone.io/github.com/olostan/dacsslide/status.png)](https://drone.io/github.com/olostan/dacsslide/latest)
+DaCSSlide [![Build Status](https://travis-ci.org/olostan/dacsslide.svg?branch=master)](https://travis-ci.org/olostan/dacsslide)
 ===============
 
 Port of [JaCSS](https://github.com/olostan/jacss) - tiny "framework" for building pure CSS3-animation based presentations. 
