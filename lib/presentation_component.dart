@@ -2,7 +2,7 @@
 // is governed by a BSD-style license that can be found in the LICENSE file.
 
 import 'package:angular2/core.dart';
-import "package:angular2/src/platform/browser_common.dart" show document;
+//import "package:angular2/src/platform/browser_common.dart" show document;
 import "package:angular2/src/platform/dom/events/event_manager.dart" show EventManager;
 import "dart:html" show KeyboardEvent,window,HashChangeEvent,document;
 
