@@ -1,11 +1,11 @@
-:host {
+presentation {
     width: 100%;
     height: 100%;
     display: block;
     color: white;
     transition: all 1s ease-in-out;
 }
-:host symbol {
+presentation symbol {
     display: block;
     position: absolute;
     top: 50%;
@@ -15,23 +15,24 @@
     perspective: 400px;
 
 }
-:host symbol > div {
+presentation symbol > div {
     transition: all 1s ease;
     opacity:0;
 }
-:host symbol > pre {
+presentation symbol > pre {
     transition: all 1s ease;
     opacity:0;
     padding: 10px;
 }
 
-:host .controls {
+presentation .controls {
     position: absolute;;
     top: 20px;
     transition: all 0.3s ease-in-out;
     opacity:0.3;
     mix-blend-mode: exclusion;
     z-index: 10000;
+    color: #555;
 
     -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none;   /* Chrome/Safari/Opera */
@@ -41,12 +42,12 @@
     user-select: none;           /* Non-prefixed version, currently
                                   not supported by any browser */
 }
-:host .controls:hover {
+presentation .controls:hover {
     opacity: 1;
     background-color: rgba(100,100,100,0.5);
 
 }
-:host .controls span {
+presentation .controls span {
     text-align: center;
     width: 30px;
     display: inline-block;
@@ -57,6 +58,6 @@
     cursor: pointer;
 
 }
-:host .controls span:hover {
+presentation .controls span:hover {
     background-color: rgba(255,255,255,0.4);
 }

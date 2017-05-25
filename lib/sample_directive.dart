@@ -45,10 +45,9 @@ class SampleDirective implements OnInit {
   @Input('sample') String url;
   @Input('name') String name;
 
-  Renderer _renderer;
   ViewContainerRef _viewContainer;
 
-  SampleDirective(this._prettifyService, this._renderer, this._viewContainer) {
+  SampleDirective(this._prettifyService, this._viewContainer) {
   }
 
   ngOnInit() async {
@@ -64,8 +63,6 @@ class SampleDirective implements OnInit {
     await _prettifyService.ensureLoaded();
     final prettifiedSample =  context.callMethod('prettyPrintOne', [sanitiedSample,type]);
     final wrappedSample = '<pre id=${name} class="prettyprint">$prettifiedSample</pre>';
-    this._renderer.setElementProperty(this._viewContainer.element.nativeElement,'innerHTML',wrappedSample);
-
-
+    (this._viewContainer.element.nativeElement as HtmlElement).innerHtml = wrappedSample;
   }
 }

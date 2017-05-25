@@ -4,12 +4,14 @@
 import 'package:angular2/core.dart';
 //import "package:angular2/src/platform/browser_common.dart" show document;
 import "package:angular2/src/platform/dom/events/event_manager.dart" show EventManager;
-import "dart:html" show KeyboardEvent,window,HashChangeEvent,document;
+import "dart:html" show KeyboardEvent,window,HashChangeEvent,document, HtmlElement;
 
 
 
 @Component(
     selector: 'symbol',
+    encapsulation: ViewEncapsulation.None,
+
     template:'<div [id]="name"><ng-content></ng-content></div>'
 )
 class SymbolComponent {
@@ -25,6 +27,7 @@ class SymbolComponent {
 </div>
 <ng-content></ng-content></div>''',
     directives: const [SymbolComponent],
+    encapsulation: ViewEncapsulation.None
     )
 class PresentationComponent implements OnDestroy,OnInit {
 
@@ -50,9 +53,8 @@ class PresentationComponent implements OnDestroy,OnInit {
 
   Function unRegister;
   ElementRef elRef;
-  Renderer renderer;
 
-  PresentationComponent(this.renderer,EventManager evm,this.elRef) {
+  PresentationComponent(EventManager evm,this.elRef) {
     // TODO: rewrite it using @HostListener()
     this.unRegister = evm.addEventListener(document,'keyup', (KeyboardEvent key)  {
       //print("Key up ${key.which}");
@@ -97,12 +99,12 @@ class PresentationComponent implements OnDestroy,OnInit {
 
   nextSlide() {
     if (current<maxSlides) current++;
-    this.renderer.setElementClass(this.elRef.nativeElement,'s'+current.toString(),false);
+   // (this.elRef.nativeElement as HtmlElement).className = 's'+current.toString();
+
   }
   prevSlide() {
     if (current>1) current--;
-    this.renderer.setElementClass(this.elRef.nativeElement,'s'+current.toString(),false);
-
+    //(this.elRef.nativeElement as HtmlElement).className = 's'+current.toString();
   }
 
 }
