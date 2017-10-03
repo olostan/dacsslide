@@ -1,5 +1,17 @@
 # Changelog
 
+##0.1.3
+
+Switched to Angular 4.
+
+##0.1.2
+
+Adding event listeners directly, not through EventManager. DDC friendly. 
+
+##0.1.1
+
+Angular 2. 
+
 ## 0.0.15
 
 - Added support of additional parameters in URL hash (Appended by `&`). Could be used by other plugins, like remote controller.

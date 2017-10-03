@@ -1,4 +1,4 @@
-import 'package:angular2/core.dart';
+import 'package:angular/core.dart';
 import "dart:async" show Future, Completer;
 import "dart:html";
 import "package:http/browser_client.dart";

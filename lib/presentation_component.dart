@@ -1,11 +1,9 @@
 // Copyright (c) 2016, Valentyn Shybanov. All rights reserved. Use of this source code
 // is governed by a BSD-style license that can be found in the LICENSE file.
 
-import 'package:angular2/core.dart';
-//import "package:angular2/src/platform/browser_common.dart" show document;
-import "package:angular2/src/platform/dom/events/event_manager.dart" show EventManager;
-import "dart:html" show KeyboardEvent,window,HashChangeEvent,document, HtmlElement;
-
+import 'package:angular/core.dart';
+import "package:angular/src/platform/dom/events/event_manager.dart" show EventManager;
+import "dart:html" show KeyboardEvent,window,HashChangeEvent,document, Event;
 
 
 @Component(
@@ -51,32 +49,35 @@ class PresentationComponent implements OnDestroy,OnInit {
     return sb.toString();
   }
 
-  Function unRegister;
   ElementRef elRef;
 
+  _onKeyUp(Event ev) {
+    KeyboardEvent key = ev;
+    //print("Key up ${key.which}");
+    switch(key.which) {
+      case 34:
+      case 39:
+      case 32:
+        _zone.run(nextSlide);
+        break;
+      case 33:
+      case 37:
+        _zone.run(prevSlide);
+        break;
+    }
+  }
+  void _onHashChange(Event ev) {
+    HashChangeEvent e = ev;
+    _setCurrentFromUrl(e.newUrl);
+  }
+
+  NgZone _zone;
+
   PresentationComponent(EventManager evm,this.elRef) {
-    // TODO: rewrite it using @HostListener()
-    this.unRegister = evm.addEventListener(document,'keyup', (KeyboardEvent key)  {
-      //print("Key up ${key.which}");
-      //window.console.debug(key);
-      switch(key.which) {
-        case 34:
-        case 39:
-        case 32:
-          nextSlide();
-          break;
-        case 33:
-        case 37:
-          prevSlide();
-          break;
-      }
-    });
 
-
-    evm.addEventListener(window, 'hashchange', (HashChangeEvent e) {
-      _setCurrentFromUrl(e.newUrl);
-//      window.console.debug(newUrl);
-    });
+    this._zone = evm.getZone();
+    document.addEventListener('keyup', _onKeyUp);
+    window.addEventListener('hashchange', _onHashChange);
 
   }
   void _setCurrentFromUrl(String e) {
@@ -85,13 +86,14 @@ class PresentationComponent implements OnDestroy,OnInit {
       var p = parts[1];
       if (p[0]=='s') {
         var newCurrent = int.parse(p.substring(1));
-        if (newCurrent!=current) current = newCurrent;
+        if (newCurrent!=current) _zone.run( () => current = newCurrent);
       }
     }
   }
 
   ngOnDestroy() {
-    unRegister();
+    document.removeEventListener('keyup', _onKeyUp);
+    document.removeEventListener('hashchange', _onHashChange);
   }
   ngOnInit() {
     _setCurrentFromUrl(window.location.toString());
@@ -99,12 +101,9 @@ class PresentationComponent implements OnDestroy,OnInit {
 
   nextSlide() {
     if (current<maxSlides) current++;
-   // (this.elRef.nativeElement as HtmlElement).className = 's'+current.toString();
-
   }
   prevSlide() {
     if (current>1) current--;
-    //(this.elRef.nativeElement as HtmlElement).className = 's'+current.toString();
   }
 
 }
