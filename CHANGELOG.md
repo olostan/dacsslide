@@ -1,5 +1,18 @@
 # Changelog
 
+##0.2.0
+
+Added possibility to change units. put anywhere
+```
+/* dacsslide.units = vmax */
+```
+All transform operators will use that units.
+
+*BREAKING CHANGE* Now if modifier has several parameters but was called with less, it will use last specified parameter (previously it used X-axis). E.g. `scale(2)` will produce `scaleX(2) scaleY(2)` and not just `scaleX(2)` like before. Same for `rotate`. Please add axis modifier to have previous behavior.  
+
+*BREAKING CHANGE* `scale` modifier now accept 2 parameters (`X` and `Y`). If you need scaling on Z-axis, you can use `scaleZ`.
+
+
 ##0.1.3
 
 Switched to Angular 4.

@@ -7,8 +7,9 @@ class _SymbolState {
   var standartMods = <String,List<String>>{
     'move':['x','y'],
     'rotate':['+rx','+ry','+rz'],
-    'rotateX':['+rx'],
-    'scale':['+sx','+sy','+sz'],
+    'rotateX':['+rx'],'rotateY':['+ry'],'rotateZ':['+rz'],
+    'scale':['sx','sy'],
+    'scaleX':['sx'],'scaleY':['sy'],'scaleZ':['sz'],
     'up':['-y'],'down':['+y'],
     'left':['-x'],'right':['+x'],
     'delay':['delay'],
@@ -22,8 +23,8 @@ class _SymbolState {
     var arguments = op>0?modifier.substring(op+1,cl).split(","):[];
     List<String> modArgs = standartMods[modName];
     if (modArgs!=null) {
-      for(var idx =0;idx<arguments.length;idx++) {
-        __doOp(modArgs[idx],arguments[idx]);
+      for(var idx =0;idx<modArgs.length;idx++) {
+        __doOp(modArgs[idx],idx<arguments.length?arguments[idx]:arguments[arguments.length-1]);
       }
     } else {
       switch(modName) {
@@ -64,10 +65,25 @@ class _SymbolState {
   }
 }
 
+class _Config {
+  static final RegExp _optionsRegExp = new RegExp(r'/\*\s*dacsslide\.(\w+)\s*=\s*(.*?)\s*\*/');
+  String units='px';
+  _Config(String input) {
+    _optionsRegExp.allMatches(input).forEach((m) {
+      var option = m.group(1);
+      var value = m.group(2);
+      switch(option) {
+        case 'units': units = value;
+      }
+    });
+  }
+}
+
 class _Css {
   _SymbolState symbol;
+  _Config config;
 
-  _Css(this.symbol);
+  _Css(this.symbol, this.config);
 
   List<String> transforms = [];
 
@@ -116,7 +132,7 @@ class _Css {
   }
 
   String _doTransforms() {
-    _addTransform("translate","","px");
+    _addTransform("translate","",config.units);
     _addTransform("rotate","r","deg");
     _addTransform("scale","s","");
     var newTransforms = transforms.join(" ");
@@ -125,12 +141,14 @@ class _Css {
     return "transform:$newTransforms;";
   }
 }
+
 RegExp _symbRegExp = new RegExp(r'(#\w+):');
 RegExp _symbInsideRegExp = new RegExp(r'(#\w+)\s*{((?:[^{]|\n)*?)::((\w+(\([^)]*?\))?\s*)+);((?:.|\n)*?)}');
 //RegExp _symbInsideRegExp = new RegExp(r'(#\w+)\s*{((?:.|\n)*?)::((\w+(\([^)]*?\))?\s*)+);((?:.|\n)*?)}');
 
 String transformCSSLide(String input) {
   var states = new Map<String,_SymbolState>();
+  var config = new _Config(input);
   while(true) {
     var symbolMatch = _symbRegExp.firstMatch(input);
     var inlineMatch = _symbInsideRegExp.firstMatch(input);
@@ -142,7 +160,7 @@ String transformCSSLide(String input) {
         if (state == null) states[symbol] = state = new _SymbolState();
         //print("inine mods: $symbol ${modifiers.join(' ')} ${state.state['x']} $input");
         modifiers.forEach(state.transform);
-        return match[1]+" {"+match[2]+new _Css(state)()+match[6]+"}";
+        return match[1]+" {"+match[2]+new _Css(state,config)()+match[6]+"}";
       });
       //print("is it end? ${newInput == input}, $input");
       if (newInput==input) return input;
@@ -155,7 +173,7 @@ String transformCSSLide(String input) {
       var end = input.indexOf(";",symbolMatch.end);
       var modifiers = input.substring(symbolMatch.end,end).split(" ")..removeWhere((s) => s==null||s=="");
       modifiers.forEach(state.transform);
-      input = input.replaceRange(symbolMatch.start, end+1,symbol+"{ "+new _Css(state)()+"}");
+      input = input.replaceRange(symbolMatch.start, end+1,symbol+"{ "+new _Css(state,config)()+"}");
     }
   }
 

@@ -42,8 +42,8 @@ combTests() {
 #test: move(5,5);
 .s1 { #test: move(+10,20) show;}
 .s2 { #test: hide; #another:show;}
-.s3 { #test: show rotate(20);}
-.s4 { #test: opacity(0.2) rotate(20);}
+.s3 { #test: show rotateX(20);}
+.s4 { #test: opacity(0.2) rotateX(20);}
 ''','''
 #test{ transform:translateX(5px) translateY(5px);}
 .s1 { #test{ opacity:1;transform:translateX(10px) translateY(20px);}}
@@ -121,6 +121,24 @@ inlineOrderTests() {
 ''');
 }
 
+unitChangeTests() {
+  testTransform('''
+/* dacsslide.units = vmax */
+#test: move(5,5);
+''','''
+/* dacsslide.units = vmax */
+#test{ transform:translateX(5vmax) translateY(5vmax);}
+''');  
+}
+scaleTests() {
+  testTransform('''
+#test: scale(2);
+''','''
+#test{ transform:scaleX(2) scaleY(2);}
+''');  
+}
+
+
 
 main() {
   test('Move tests', moveTests);
@@ -128,6 +146,8 @@ main() {
   test('Delay tests', delayTests);
   test('Inline tests', inlineTests);
   test('Inline order tests', inlineOrderTests);
+  test('Unit change tests', unitChangeTests);
+  test('Scaling tests', scaleTests);
 
 }
 
