@@ -1,15 +1,41 @@
 // Copyright (c) 2016, Valentyn Shybanov. All rights reserved. Use of this source code
 // is governed by a BSD-style license that can be found in the LICENSE file.
 
+import 'package:angular/angular.dart';
 import 'package:angular/core.dart';
 import "package:angular/src/platform/dom/events/event_manager.dart" show EventManager;
 import "dart:html" show KeyboardEvent,window,HashChangeEvent,document, Event;
+import "dart:async";
 
+@Injectable() 
+class SlideService {
+
+  int _current = 0;
+  int maxSlides = 0;
+  bool commentsPresent = false;
+  bool commentsShow = true;
+
+
+  int get current => _current;
+  void set current(int value) {
+    if (_current!=value) {
+      _current = value;
+      window.location.hash = 's'+_current.toString();
+    }
+  }
+
+  void next() {
+    if (current<maxSlides) current++;
+  }
+  void prev() {
+    if (current>1) current--;
+  }
+
+}
 
 @Component(
     selector: 'symbol',
     encapsulation: ViewEncapsulation.None,
-
     template:'<div [id]="name"><ng-content></ng-content></div>'
 )
 class SymbolComponent {
@@ -21,31 +47,24 @@ class SymbolComponent {
     styleUrls: const ['presentation_component.css'],
     template: '''<div [attr.class]="slidesClassList">
 <div class="controls">
-        <span (click)="prevSlide()"> &larr; </span> {{current}} <span (click)="nextSlide()"> &rarr; </span>
+        <span (click)="prevSlide()" title="Previous slide"> &larr; </span> {{slideService.current}} <span (click)="nextSlide()"> &rarr; </span>
+        <span title="Show/Hide speaker's comments" *ngIf="slideService.commentsPresent" (click)="slideService.commentsShow = !slideService.commentsShow;">C</span>
 </div>
 <ng-content></ng-content></div>''',
-    directives: const [SymbolComponent],
+    directives: const [SymbolComponent, NgIf],
     encapsulation: ViewEncapsulation.None
     )
-class PresentationComponent implements OnDestroy,OnInit {
+class PresentationComponent implements OnDestroy, AfterViewInit {
 
-  int _current = 1;
-  int get current => _current;
-  void set current(int value) {
-    if (_current!=value) {
-      _current = value;
-      window.location.hash = 's'+_current.toString();
-    }
-  }
+  bool _showComments = false;
 
-  int maxSlides =0;
-
-  @Input('slides') set slidesAttr(slides) => maxSlides = int.parse(slides);
+  @Input('slides') set slidesAttr(slides) => slideService.maxSlides = int.parse(slides);
+  @Input('comments') set commentsAttr(String comments) => _showComments  = comments.toLowerCase()=='true';
 
   @HostBinding('attr.class')
   String get slidesClassList {
     var sb = new StringBuffer();
-    for (var i=1;i<=current;i++) sb.write("s${i} ");
+    for (var i=1;i<=slideService.current;i++) sb.write("s${i} ");
     return sb.toString();
   }
 
@@ -73,7 +92,9 @@ class PresentationComponent implements OnDestroy,OnInit {
 
   NgZone _zone;
 
-  PresentationComponent(EventManager evm,this.elRef) {
+  SlideService slideService;
+
+  PresentationComponent(EventManager evm,this.elRef, this.slideService) {
 
     this._zone = evm.getZone();
     document.addEventListener('keyup', _onKeyUp);
@@ -86,24 +107,42 @@ class PresentationComponent implements OnDestroy,OnInit {
       var p = parts[1];
       if (p[0]=='s') {
         var newCurrent = int.parse(p.substring(1));
-        if (newCurrent!=current) _zone.run( () => current = newCurrent);
+        if (newCurrent!=slideService.current) _zone.run( () => slideService.current = newCurrent);
+        return;
       }
     }
+    _zone.run( () => slideService.current = 1);
+
   }
 
   ngOnDestroy() {
     document.removeEventListener('keyup', _onKeyUp);
     document.removeEventListener('hashchange', _onHashChange);
   }
-  ngOnInit() {
+  ngAfterViewInit() {
     _setCurrentFromUrl(window.location.toString());
   }
 
   nextSlide() {
-    if (current<maxSlides) current++;
+    slideService.next();
   }
   prevSlide() {
-    if (current>1) current--;
+    slideService.prev();
   }
+}
 
+@Component(    
+    selector: 'comment',
+    encapsulation: ViewEncapsulation.None,
+    template:'<div [class]="slideService.commentsShow && slide==slideService.current?\'visible\':\'hidden\'"><ng-content></ng-content></div>'
+) 
+class CommentComponent {
+  SlideService slideService;
+  int slide;
+
+  @Input('slide') void set slideAttr(String s) => slide = int.parse(s);
+
+  CommentComponent(this.slideService) {
+    this.slideService.commentsPresent = true;
+  }
 }

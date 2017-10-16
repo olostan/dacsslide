@@ -11,8 +11,8 @@ import 'package:dacsslide/sample_directive.dart';
     styleUrls: const ['app_component.css'],
     templateUrl: 'app_component.html',
     encapsulation: ViewEncapsulation.None,
-    directives: const [PresentationComponent, SymbolComponent,SampleDirective],
-    providers: const [SampleService]
+    directives: const [PresentationComponent, SymbolComponent,SampleDirective,CommentComponent],
+    providers: const [SampleService, SlideService]
 )
 class AppComponent {
 }

@@ -1,5 +1,12 @@
 # Changelog
 
+##0.2.1 
+
+Added speaker comments support. Just add
+```
+<comment slide="1">Some comment</comment>
+```
+
 ##0.2.0
 
 Added possibility to change units. put anywhere

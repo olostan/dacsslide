@@ -61,3 +61,19 @@ presentation .controls span {
 presentation .controls span:hover {
     background-color: rgba(255,255,255,0.4);
 }
+comment div {
+    background-color:rgba(0,0,0,0.8);
+    color: white;
+    position: absolute;
+    width: 100vw;
+    padding: 20px;
+    bottom: 0;
+    transition: all 1s ease-in-out;
+}
+comment div.visible {
+    transform: translateY(0);
+}
+comment div.hidden {
+    transform: translateY(400px);
+}
+comment div a,comment div b { color: yellow; }
