@@ -1,0 +1,79 @@
+presentation {
+    width: 100%;
+    height: 100%;
+    display: block;
+    color: white;
+    transition: all 1s ease-in-out;
+}
+presentation symbol {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 24px;
+    perspective: 400px;
+
+}
+presentation symbol > div {
+    transition: all 1s ease;
+    opacity:0;
+}
+presentation symbol > pre {
+    transition: all 1s ease;
+    opacity:0;
+    padding: 10px;
+}
+
+presentation .controls {
+    position: absolute;;
+    top: 20px;
+    transition: all 0.3s ease-in-out;
+    opacity:0.3;
+    mix-blend-mode: exclusion;
+    z-index: 10000;
+    color: #555;
+
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none;   /* Chrome/Safari/Opera */
+    -khtml-user-select: none;    /* Konqueror */
+    -moz-user-select: none;      /* Firefox */
+    -ms-user-select: none;       /* Internet Explorer/Edge */
+    user-select: none;           /* Non-prefixed version, currently
+                                  not supported by any browser */
+}
+presentation .controls:hover {
+    opacity: 1;
+    background-color: rgba(100,100,100,0.5);
+
+}
+presentation .controls span {
+    text-align: center;
+    width: 30px;
+    display: inline-block;
+    border: solid 1px white;
+    padding: 10px;
+    margin: 10px;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+
+}
+presentation .controls span:hover {
+    background-color: rgba(255,255,255,0.4);
+}
+comment div {
+    background-color:rgba(0,0,0,0.8);
+    color: white;
+    position: absolute;
+    width: 100vw;
+    padding: 20px;
+    bottom: 0;
+    transition: all 1s ease-in-out;
+}
+comment div.visible {
+    transform: translateY(0);
+}
+comment div.hidden {
+    transform: translateY(400px);
+}
+comment div a,comment div b { color: yellow; }
