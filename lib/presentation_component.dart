@@ -5,7 +5,6 @@ import 'package:angular/angular.dart';
 import 'package:angular/core.dart';
 import "package:angular/src/platform/dom/events/event_manager.dart" show EventManager;
 import "dart:html" show KeyboardEvent,window,HashChangeEvent,document, Event;
-import "dart:async";
 
 @Injectable() 
 class SlideService {
@@ -44,7 +43,7 @@ class SymbolComponent {
 @Component(
     selector: 'presentation',
     styleUrls: const ['presentation_component.css'],
-    template: '''<div [attr.class]="slidesClassList">
+    template: '''<div [class]="slidesClassList">
 <div class="controls">
         <span (click)="prevSlide()" title="Previous slide"> &larr; </span> {{slideService.current}} <span (click)="nextSlide()"> &rarr; </span>
         <span *ngIf="showComments" title="Show/Hide speaker's comments" *ngIf="slideService.commentsPresent" (click)="slideService.commentsShow = !slideService.commentsShow;">C</span>
@@ -54,7 +53,7 @@ class SymbolComponent {
 
     encapsulation: ViewEncapsulation.None
     )
-class PresentationComponent implements OnDestroy, AfterViewInit {
+class PresentationComponent implements OnDestroy, OnInit {
 
   bool showComments = true;
 
@@ -64,7 +63,7 @@ class PresentationComponent implements OnDestroy, AfterViewInit {
   String _cachedClass;
   int _cachedCurrentSlide;
 
-  @HostBinding('attr.class')
+  @HostBinding('class')
   String get slidesClassList {
     if (_cachedCurrentSlide==slideService.current) return _cachedClass;
     var result = "";
@@ -97,11 +96,10 @@ class PresentationComponent implements OnDestroy, AfterViewInit {
   }
 
   NgZone _zone;
-  ChangeDetectorRef _chDet;
 
   SlideService slideService;
 
-  PresentationComponent(EventManager evm,this.elRef, this.slideService, this._zone, this._chDet) {
+  PresentationComponent(EventManager evm,this.elRef, this.slideService, this._zone) {
 
     document.addEventListener('keyup', _onKeyUp);
     window.addEventListener('hashchange', _onHashChange);
@@ -125,11 +123,8 @@ class PresentationComponent implements OnDestroy, AfterViewInit {
     document.removeEventListener('keyup', _onKeyUp);
     document.removeEventListener('hashchange', _onHashChange);
   }
-  ngAfterViewInit() {
-    new Future.delayed(new Duration(milliseconds: 100), () {
-      _setCurrentFromUrl(window.location.toString());
-    });
-    //_chDet.detectChanges();
+  ngOnInit() {
+    _setCurrentFromUrl(window.location.toString());
   }
 
   nextSlide() {

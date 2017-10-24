@@ -1,0 +1,13 @@
+./LICENSE
+./CHANGELOG.md
+./web/index.html
+./web/styles.css
+./web/main.dart
+./web/favicon.png
+./README.md
+./pubspec.yaml
+./.gitignore
+./lib/app_component.dart
+./lib/app_component.scss
+./lib/app_component.html
+./analysis_options.yaml

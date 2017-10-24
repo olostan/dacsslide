@@ -1,8 +1,8 @@
 # Changelog
 
-##0.3.0-beta
+##0.3.0-alpha
 
-Upgraded to Angular 5.0 and using dartdevc.
+Upgraded to Angular 5.0 and using dartdevc. Initial dacsslide binary implementation.
 
 ##0.2.1 
 
