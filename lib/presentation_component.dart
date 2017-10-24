@@ -10,11 +10,10 @@ import "dart:async";
 @Injectable() 
 class SlideService {
 
-  int _current = 0;
+  int _current = 1;
   int maxSlides = 0;
   bool commentsPresent = false;
   bool commentsShow = true;
-
 
   int get current => _current;
   void set current(int value) {
@@ -48,24 +47,31 @@ class SymbolComponent {
     template: '''<div [attr.class]="slidesClassList">
 <div class="controls">
         <span (click)="prevSlide()" title="Previous slide"> &larr; </span> {{slideService.current}} <span (click)="nextSlide()"> &rarr; </span>
-        <span title="Show/Hide speaker's comments" *ngIf="slideService.commentsPresent" (click)="slideService.commentsShow = !slideService.commentsShow;">C</span>
+        <span *ngIf="showComments" title="Show/Hide speaker's comments" *ngIf="slideService.commentsPresent" (click)="slideService.commentsShow = !slideService.commentsShow;">C</span>
 </div>
 <ng-content></ng-content></div>''',
     directives: const [SymbolComponent, NgIf],
+
     encapsulation: ViewEncapsulation.None
     )
 class PresentationComponent implements OnDestroy, AfterViewInit {
 
-  bool _showComments = false;
+  bool showComments = true;
 
   @Input('slides') set slidesAttr(slides) => slideService.maxSlides = int.parse(slides);
-  @Input('comments') set commentsAttr(String comments) => _showComments  = comments.toLowerCase()=='true';
+  @Input('comments') set commentsAttr(String comments) => showComments  = comments.toLowerCase()=='true';
+
+  String _cachedClass;
+  int _cachedCurrentSlide;
 
   @HostBinding('attr.class')
   String get slidesClassList {
-    var sb = new StringBuffer();
-    for (var i=1;i<=slideService.current;i++) sb.write("s${i} ");
-    return sb.toString();
+    if (_cachedCurrentSlide==slideService.current) return _cachedClass;
+    var result = "";
+    for (var i=1;i<=slideService.current;i++) result+="s${i} ";
+    _cachedClass = result;
+    _cachedCurrentSlide = slideService.current;
+    return _cachedClass;
   }
 
   ElementRef elRef;
@@ -77,11 +83,11 @@ class PresentationComponent implements OnDestroy, AfterViewInit {
       case 34:
       case 39:
       case 32:
-        _zone.run(nextSlide);
+        _zone.run(() {nextSlide();});
         break;
       case 33:
       case 37:
-        _zone.run(prevSlide);
+        _zone.run(() {prevSlide();});
         break;
     }
   }
@@ -91,12 +97,12 @@ class PresentationComponent implements OnDestroy, AfterViewInit {
   }
 
   NgZone _zone;
+  ChangeDetectorRef _chDet;
 
   SlideService slideService;
 
-  PresentationComponent(EventManager evm,this.elRef, this.slideService) {
+  PresentationComponent(EventManager evm,this.elRef, this.slideService, this._zone, this._chDet) {
 
-    this._zone = evm.getZone();
     document.addEventListener('keyup', _onKeyUp);
     window.addEventListener('hashchange', _onHashChange);
 
@@ -107,12 +113,12 @@ class PresentationComponent implements OnDestroy, AfterViewInit {
       var p = parts[1];
       if (p[0]=='s') {
         var newCurrent = int.parse(p.substring(1));
-        if (newCurrent!=slideService.current) _zone.run( () => slideService.current = newCurrent);
+        if (newCurrent!=slideService.current) 
+          slideService.current = newCurrent;
         return;
       }
     }
-    _zone.run( () => slideService.current = 1);
-
+    slideService.current = 1;
   }
 
   ngOnDestroy() {
@@ -120,7 +126,10 @@ class PresentationComponent implements OnDestroy, AfterViewInit {
     document.removeEventListener('hashchange', _onHashChange);
   }
   ngAfterViewInit() {
-    _setCurrentFromUrl(window.location.toString());
+    new Future.delayed(new Duration(milliseconds: 100), () {
+      _setCurrentFromUrl(window.location.toString());
+    });
+    //_chDet.detectChanges();
   }
 
   nextSlide() {

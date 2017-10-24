@@ -1,4 +1,4 @@
-import 'package:angular/core.dart';
+import 'package:angular/angular.dart';
 import "dart:async" show Future, Completer;
 import "dart:html";
 import "package:http/browser_client.dart";
@@ -55,7 +55,7 @@ class SampleDirective implements OnInit {
     final sanitiedSample = sanitizer.convert(sample);
     var type = 'html';
     var extensionIdx = url.lastIndexOf('.');
-    if (extensionIdx>-1) {
+    if (extensionIdx > -1) {
       type = url.substring(extensionIdx);
     }
     // hack for dart samples:

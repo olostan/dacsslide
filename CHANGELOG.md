@@ -1,5 +1,9 @@
 # Changelog
 
+##0.3.0-beta
+
+Upgraded to Angular 5.0 and using dartdevc.
+
 ##0.2.1 
 
 Added speaker comments support. Just add
