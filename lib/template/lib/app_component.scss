@@ -2,3 +2,28 @@ my-app presentation symbol div {
   font-size: 4vw;
 }
 
+#intro {
+  font-size: 4vw;
+}
+#auth,#email,#pres_url {
+  font-size: 2vw;
+  width: 80vw;
+  text-align: right;
+}
+#auth: down(160);
+#email: down(195);
+#pres_url: down(230);
+
+.s1 {
+  #intro: show;
+  #auth: show;
+  #email: show;
+  #pres_url: show;
+}
+.s2 {
+  #intro: down(300) rotateX(-60) hide;
+  #auth: down(300) hide delay(0.4);
+  #email: down(300) hide delay(0.3);
+  #pres_url: down(300) hide delay(0.2);
+  
+}

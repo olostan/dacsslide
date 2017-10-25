@@ -13,7 +13,8 @@ dependencies:
   test: '>0.12.0 <1.0.0'
   http: '>0.10.0 <1.0.0'
   barback: '>0.10.0 < 1.0.0'
-  'resource': '>=2.1.2 < 3.0.0'
+  resource: '>=2.1.2 < 3.0.0'
+  path: '>1.4.0 < 2.0.0'
 transformers:
 - dacsslide
 - csslib_transform

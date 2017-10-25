@@ -2,12 +2,12 @@
 ./CHANGELOG.md
 ./web/index.html
 ./web/styles.css
-./web/main.dart
+./web/main.dart.template
 ./web/favicon.png
 ./README.md
-./pubspec.yaml
+./pubspec.yaml.template
 ./.gitignore
-./lib/app_component.dart
+./lib/app_component.dart.template
 ./lib/app_component.scss
 ./lib/app_component.html
 ./analysis_options.yaml
