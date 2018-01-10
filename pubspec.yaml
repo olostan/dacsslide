@@ -1,5 +1,5 @@
 name: dacsslide
-version: 0.3.0-alpha
+version: 0.3.0-beta
 environment:
   sdk: '>=1.13.0 <=2.0.0'
 author: Valentyn Shybanov <olostan@gmail.com>
@@ -20,7 +20,7 @@ transformers:
 - csslib_transform
 - angular:
     entry_points:
-      - web/main.dart
+    - web/main.dart
 - dart_to_js_script_rewriter
 
 web:

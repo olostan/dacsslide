@@ -12,7 +12,7 @@ import 'package:angular/angular.dart';
 BrowserClient HttpClientBackendServiceFactory() =>
     new BrowserClient();
 
-@AngularEntrypoint()
+//@AngularEntrypoint()
 main() {
   bootstrap(AppComponent, const [
    const Provider(BrowserClient,
