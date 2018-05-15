@@ -4,3 +4,4 @@ packages
 *.lock
 .pub
 .idea
+.dart_tool

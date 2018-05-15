@@ -1,0 +1,19 @@
+builders:
+    pcss_builder: 
+        import: "package:dacsslide/builder.dart"
+        builder_factories: ["pcssBuilder"]
+        auto_apply: all_packages
+        runs_before: ["sass_builder"]
+        build_extensions:
+            .pcss: 
+                - ".scss"
+        applies_builders:
+            - pcss_builder|pcss_source_cleanup
+            - sass_builder|sass_builder
+post_process_builders:
+    pcss_source_cleanup:
+        import: "package:dacsslide/builder.dart"
+        builder_factory: "pcssSourceCleanup"
+        defaults:
+            release_options:
+                enabled: true

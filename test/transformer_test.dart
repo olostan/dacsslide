@@ -6,7 +6,7 @@ library transformer_test;
 
 import 'package:test/test.dart';
 
-import 'package:dacsslide/scss_transformer.dart';
+import 'package:dacsslide/pcss_builder.dart';
 
 testTransform(String src,String dst) {
   expect(transformCSSLide(src),equals(dst));

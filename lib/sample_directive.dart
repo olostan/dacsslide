@@ -1,14 +1,14 @@
 import 'package:angular/angular.dart';
 import "dart:async" show Future, Completer;
 import "dart:html";
-import "package:http/browser_client.dart";
+import 'package:http/http.dart';
 import "dart:convert" show HtmlEscape;
 import "dart:js" show context;
 
 @Injectable()
 class SampleService {
   Completer _loaded = new Completer();
-  final BrowserClient _http;
+  final Client _http;
 
   SampleService(this._http) {
     var script = new ScriptElement();

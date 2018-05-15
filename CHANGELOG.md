@@ -1,5 +1,12 @@
 # Changelog
 
+##0.3.0-beta
+
+Updated to 5.0-beta+11. Changed transformers to builders
+
+*BREAKING CHANGE*
+Now instead of "scss" files "pcss" files are used for specifying slide transitions
+
 ##0.3.0-alpha
 
 Upgraded to Angular 5.0 and using dartdevc. Initial dacsslide binary implementation.

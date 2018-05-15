@@ -46,7 +46,7 @@ class SymbolComponent {
     template: '''<div [class]="slidesClassList">
 <div class="controls">
         <span (click)="prevSlide()" title="Previous slide"> &larr; </span> {{slideService.current}} <span (click)="nextSlide()"> &rarr; </span>
-        <span *ngIf="showComments" title="Show/Hide speaker's comments" *ngIf="slideService.commentsPresent" (click)="slideService.commentsShow = !slideService.commentsShow;">C</span>
+        <span title="Show/Hide speaker's comments" *ngIf="slideService.commentsPresent && showComments" (click)="slideService.commentsShow = !slideService.commentsShow;">C</span>
 </div>
 <ng-content></ng-content></div>''',
     directives: const [SymbolComponent, NgIf],
